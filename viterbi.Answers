@@ -1,0 +1,63 @@
+
+-> My code is complete and it is giving the accuracy as output. I followed the steps given in "Programming guidelines"
+
+-----------------------------------------------
+-> This is the accuracy for test data :
+
+C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Assignment 2>python viterbi.py POS.train POS.test
+Accuracy: 92.48%
+------------------------------------------------
+->I created the baseline.py in which that POS tag is given to the word with its most frequent tag in POS.train data set. 
+
+**For unknown and new words I used a most common tag from the entire data set ***
+
+This is the accuracy of baseline.py when tra data is POS.train 
+C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Assignment 2>python baseline.py POS.train POS.test
+Accuracy: 87.24%
+-------------------------------------------------
+Errors I found 
+
+Error-1 : Numerical Tags (CD)
+->we have few numeric data in test dataset like --[422,1935,1913,947,15.2 ,61.5 ,(1,188,690)],etc..
+
+These numerics are not seen in the train dataset and are new in the test data and the actual tag should be "CD", in my case it predicted as other tags.
+The possible reason is, this is new in the test dataset and in my viterbi_algorithm function I have added smoothing of 0.000000001 for all the unseen words.
+
+solution: we can add rules to recognize numbers, digits, and decimals(44.4), so that if the word/token is following that rule we can add CD-tag for such numbers.
+-----------------------
+
+Error-2: New words and also proper nouns
+->In my error list I have seen a few proper nouns that are mostly new in test dataset, example: [Entrepreneurs, Subscribers, Tehran].
+The possible reason for the first word 'Entrepreneurs' is, it is not in the train dataset and is now in the test set. That one time it is capitalized and the other is lowercase.
+->Similarly,  word-'Subscribers' is a new word and the previous tag is '/', so it does not have any history of previous tags. Therefore, it predicts the tag wrongly.
+
+Solution:
+-> We can handle these cases by implementing rules like when the word is capitalized then it is NP(mainly when they occur at the start of the sentence)
+and also we can handle through morphological analysis(capital, prefix, sufix) ..
+----------------------
+
+Error-3: Collocations 
+->The error I found here is, there are few tokens like-[price-growth, non-food, non-energy, late-night, 50-minutes]
+
+->The reason for this is we have '-' in between the token and those are new in the test dataset.
+
+Solution:
+--> We can handle this situation by doing a morphological alaysis or we can create a rule like, if the token contains hyphen in between and follows the noun then it should be tagged as JJ mostly.
+---------------------------------
+
+Error4: Words like -[in, that, as, all, both]
+-> The possible reason here could be ambiguity between the tags, we see these words more times in the dataset but we use in different context. Even if we follow the algorithm, at times it may not detect the tag correctly.
+
+Solution:
+We can handle this situation by looking at bigrams, trigrams for previous tags to understand the correct context, this will reduce confusion between similar tags.
+
+=========================================
+Note: In my viterbi.py code I have added smoothing value=0.000000001. A small probability for unknown values.
+In my baseline.py I have taken most common tag in the entire data set for unknown words. 
+
+
+
+
+
+
+

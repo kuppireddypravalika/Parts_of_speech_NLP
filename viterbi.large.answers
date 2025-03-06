@@ -1,0 +1,23 @@
+
+-->My code is complete and gives the accuracy as output using the same viterbi.py for POS.train.large.
+-----------------------------------------------------
+-->The accuracy of the system is:
+
+C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Assignment 2>python viterbi.py POS.train.large POS.test
+Accuracy: 95.61%
+
+-->
+C:\Users\aprav\OneDrive - Umich\Fall 2024\CIS 511 - Natural Language Processing\Assignment 2>python baseline.py POS.train.large POS.test
+Accuracy: 91.99%
+
+-------------------------------------------------
+-> To make the algorithm more efficient when dealing with large data sets we can choose the proper data structure which have less time complexity and space complexity which helps us for faster lookups. We can also use parallel programming like Multithreading/Multiprocessing which will do mathematical calculations parallelly and save time.
+
+--> One example is - The sparse Matrix (scipy.sparse). This will allow storing of the non-zero elements, which takes less memory and helps in faster lookups.
+--> We can also use smoothing techniques like Laplace smoothing for unknown/new words.
+
+
+
+================================================
+Note: In my viterbi.py code I have added smoothing value=0.000000001. A small probability for unknown values.
+In my baseline.py I have taken most common tag in the entire data set for unknown words. 
